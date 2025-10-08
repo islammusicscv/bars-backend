@@ -4,6 +4,7 @@ import {LocationEntity} from "./location.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserService} from "../user/user.service";
 import {CreateLocationDto} from "./create-location.dto";
+import {UpdateLocationDto} from "./update-location.dto";
 
 @Injectable()
 export class LocationsService {
@@ -32,5 +33,14 @@ export class LocationsService {
         }
         const location = this.locationRepository.create({...createLocationDto,user});
         return await this.locationRepository.save(location);
+    }
+
+    async update(id:number, updateLocationDto: UpdateLocationDto) {
+        const location = await this.findById(id);
+        if (!location) {
+            throw new NotFoundException("Location does not exists");
+        }
+        await this.locationRepository.update(id, updateLocationDto);
+        return await this.findById(id);
     }
 }

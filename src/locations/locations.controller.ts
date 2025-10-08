@@ -1,8 +1,9 @@
-import {Body, Controller, Delete, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
 import {LocationsService} from "./locations.service";
 import {LocationEntity} from "./location.entity";
 import {DeleteResult} from "typeorm";
 import {CreateLocationDto} from "./create-location.dto";
+import {UpdateLocationDto} from "./update-location.dto";
 
 @Controller('locations')
 export class LocationsController {
@@ -26,5 +27,10 @@ export class LocationsController {
     @Post()
     create(@Body() createLocationDto: CreateLocationDto) {
         return this.locationService.create(createLocationDto);
+    }
+
+    @Patch(':id')
+    async update(@Param('id') id:string, @Body() updateLocationDto: UpdateLocationDto) {
+        return this.locationService.update(+id, updateLocationDto);
     }
 }
