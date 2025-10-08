@@ -5,6 +5,8 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConfigModule} from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import {User} from "./user/user.entity";
+import { LocationsModule } from './locations/locations.module';
+import {LocationEntity} from "./locations/location.entity";
 
 @Module({
   imports: [
@@ -16,10 +18,11 @@ import {User} from "./user/user.entity";
     username: process.env.DATABASE_USER || 'postgres',
     password: process.env.DATABASE_PASSWORD || 'postgres',
     database: process.env.DATABASE_NAME || 'bars',
-    entities: [User],
+    entities: [User, LocationEntity],
     synchronize: true,
   }),
-      UserModule],
+      UserModule,
+      LocationsModule],
   controllers: [AppController],
   providers: [AppService],
 })
