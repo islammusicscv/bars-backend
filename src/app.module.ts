@@ -8,6 +8,7 @@ import {User} from "./user/user.entity";
 import { LocationsModule } from './locations/locations.module';
 import {LocationEntity} from "./locations/location.entity";
 import { AuthModule } from './auth/auth.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { AuthModule } from './auth/auth.module';
   }),
       UserModule,
       LocationsModule,
-      AuthModule],
+      AuthModule,
+      CommentsModule],
   controllers: [AppController],
   providers: [AppService],
 })

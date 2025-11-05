@@ -3,11 +3,12 @@ import {
     CreateDateColumn,
     Entity,
     JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {User} from "../user/user.entity";
+import {CommentsEntity} from "../comments/comments.entity";
 
 @Entity('locations')
 export class LocationEntity {
@@ -29,4 +30,7 @@ export class LocationEntity {
     @ManyToOne(() => User, (user) => user.locations)
     @JoinColumn({name: "user_id"})
     user: User;
+
+    @OneToMany(() => CommentsEntity, (comment) => comment.location)
+    comments: CommentsEntity[];
 }

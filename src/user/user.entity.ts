@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import {LocationEntity} from "../locations/location.entity";
+import {CommentsEntity} from "../comments/comments.entity";
 
 
 @Entity('users')
@@ -34,4 +35,7 @@ export class User {
 
     @OneToMany(() => LocationEntity, (location) => location.user)
     locations: LocationEntity[];
+
+    @OneToMany(() => CommentsEntity, (comment) => comment.user)
+    comments: CommentsEntity[];
 }
