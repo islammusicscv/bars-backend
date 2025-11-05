@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import {User} from "./user/user.entity";
 import { LocationsModule } from './locations/locations.module';
 import {LocationEntity} from "./locations/location.entity";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import {LocationEntity} from "./locations/location.entity";
     synchronize: true,
   }),
       UserModule,
-      LocationsModule],
+      LocationsModule,
+      AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
