@@ -4,10 +4,13 @@ import { AuthService } from './auth.service';
 import {UserModule} from "../user/user.module";
 import {JwtModule} from "@nestjs/jwt";
 import {ConfigModule} from "@nestjs/config";
+import {LocalStrategy} from "./local.strategy";
+import {PassportModule} from "@nestjs/passport";
 
 @Module({
   imports: [
       UserModule,
+      PassportModule,
       ConfigModule.forRoot({isGlobal: true}),
       JwtModule.register({
       global: true,
@@ -16,6 +19,6 @@ import {ConfigModule} from "@nestjs/config";
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, LocalStrategy]
 })
 export class AuthModule {}
