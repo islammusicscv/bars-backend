@@ -20,9 +20,10 @@ export class LocationsController {
         return await this.locationService.findById(+id);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Delete(':id')
-    async delete(@Param('id') id: string): Promise<DeleteResult> {
-        return await this.locationService.delete(+id);
+    async delete(@Param('id') id: string,@Request() req): Promise<DeleteResult> {
+        return await this.locationService.delete(+id,req.user.id);
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -31,8 +32,9 @@ export class LocationsController {
         return this.locationService.create(createLocationDto,req.user.id);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Patch(':id')
-    async update(@Param('id') id:string, @Body() updateLocationDto: UpdateLocationDto) {
-        return this.locationService.update(+id, updateLocationDto);
+    async update(@Param('id') id:string, @Body() updateLocationDto: UpdateLocationDto, @Request() req) {
+        return this.locationService.update(+id, updateLocationDto,req.user.id);
     }
 }

@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {ForbiddenException, Injectable, NotFoundException} from '@nestjs/common';
 import {DeleteResult, Repository} from "typeorm";
 import {LocationEntity} from "./location.entity";
 import {InjectRepository} from "@nestjs/typeorm";
@@ -18,10 +18,20 @@ export class LocationsService {
     }
 
     findById(id: number): Promise<LocationEntity | null> {
-        return this.locationRepository.findOne({where: {id}});
+        return this.locationRepository.findOne({where: {id}, relations: ['user']});
     }
 
-    delete(id: number): Promise<DeleteResult> {
+    async delete(id: number, userId: number): Promise<DeleteResult> {
+        const location = await this.findById(id);
+
+        if (!location) {
+            throw new NotFoundException("Lokacija ne obstaja");
+        }
+
+        if (location.user.id != userId) {
+            throw new ForbiddenException("Nisi lastnik");
+        }
+
         return this.locationRepository.delete(id);
     }
 
@@ -35,10 +45,13 @@ export class LocationsService {
         return await this.locationRepository.save(location);
     }
 
-    async update(id:number, updateLocationDto: UpdateLocationDto) {
+    async update(id:number, updateLocationDto: UpdateLocationDto, userId: number) {
         const location = await this.findById(id);
         if (!location) {
             throw new NotFoundException("Location does not exists");
+        }
+        if (location.user.id != userId) {
+            throw new ForbiddenException("Nisi lastnik");
         }
         await this.locationRepository.update(id, updateLocationDto);
         return await this.findById(id);
