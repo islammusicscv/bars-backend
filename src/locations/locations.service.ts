@@ -25,9 +25,9 @@ export class LocationsService {
         return this.locationRepository.delete(id);
     }
 
-    async create(createLocationDto: CreateLocationDto) {
+    async create(createLocationDto: CreateLocationDto, id: number) {
         //nimam še userja prijave, registracije ... zato sem hardcode na 1
-        const user = await this.userService.findById(1);
+        const user = await this.userService.findById(id);
         if (!user) {
             throw new NotFoundException("User does not exists");
         }

@@ -1,9 +1,10 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Request, Controller, Delete, Get, Param, Patch, Post, UseGuards} from '@nestjs/common';
 import {LocationsService} from "./locations.service";
 import {LocationEntity} from "./location.entity";
 import {DeleteResult} from "typeorm";
 import {CreateLocationDto} from "./create-location.dto";
 import {UpdateLocationDto} from "./update-location.dto";
+import {AuthGuard} from "@nestjs/passport";
 
 @Controller('locations')
 export class LocationsController {
@@ -24,9 +25,10 @@ export class LocationsController {
         return await this.locationService.delete(+id);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Post()
-    create(@Body() createLocationDto: CreateLocationDto) {
-        return this.locationService.create(createLocationDto);
+    create(@Body() createLocationDto: CreateLocationDto, @Request() req) {
+        return this.locationService.create(createLocationDto,req.user.id);
     }
 
     @Patch(':id')
