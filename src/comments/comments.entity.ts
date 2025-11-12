@@ -1,7 +1,16 @@
-import {Column, CreateDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 import {User} from "../user/user.entity";
 import {LocationEntity} from "../locations/location.entity";
 
+@Entity('comments')
 export class CommentsEntity{
     @PrimaryGeneratedColumn()
     id: number;
