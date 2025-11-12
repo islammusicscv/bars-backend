@@ -9,6 +9,7 @@ import { LocationsModule } from './locations/locations.module';
 import {LocationEntity} from "./locations/location.entity";
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
+import {CommentsEntity} from "./comments/comments.entity";
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { CommentsModule } from './comments/comments.module';
     username: process.env.DATABASE_USER || 'postgres',
     password: process.env.DATABASE_PASSWORD || 'postgres',
     database: process.env.DATABASE_NAME || 'bars',
-    entities: [User, LocationEntity],
+    entities: [User, LocationEntity, CommentsEntity],
     synchronize: true,
   }),
       UserModule,
