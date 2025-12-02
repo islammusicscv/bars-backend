@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { CommentsEntity } from '../comments/comments.entity';
+import { LocationImageEntity } from './location-image.entity';
 
 @Entity('locations')
 export class LocationEntity {
@@ -34,4 +35,7 @@ export class LocationEntity {
 
   @OneToMany(() => CommentsEntity, (comment) => comment.location)
   comments: CommentsEntity[];
+
+  @OneToMany(() => LocationImageEntity, (image) => image.location, { cascade: true })
+  images: LocationImageEntity[];
 }

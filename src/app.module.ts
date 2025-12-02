@@ -1,33 +1,35 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {TypeOrmModule} from '@nestjs/typeorm';
-import {ConfigModule} from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
-import {User} from "./user/user.entity";
+import { User } from './user/user.entity';
 import { LocationsModule } from './locations/locations.module';
-import {LocationEntity} from "./locations/location.entity";
+import { LocationEntity } from './locations/location.entity';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
-import {CommentsEntity} from "./comments/comments.entity";
+import { CommentsEntity } from './comments/comments.entity';
+import { LocationImageEntity } from './locations/location-image.entity';
 
 @Module({
   imports: [
-      ConfigModule.forRoot({isGlobal: true}),
-      TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: process.env.DATABASE_HOST || 'localhost',
-    port: Number(process.env.DATABASE_PORT) || 5432,
-    username: process.env.DATABASE_USER || 'postgres',
-    password: process.env.DATABASE_PASSWORD || 'postgres',
-    database: process.env.DATABASE_NAME || 'bars',
-    entities: [User, LocationEntity, CommentsEntity],
-    synchronize: true,
-  }),
-      UserModule,
-      LocationsModule,
-      AuthModule,
-      CommentsModule],
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DATABASE_HOST || 'localhost',
+      port: Number(process.env.DATABASE_PORT) || 5432,
+      username: process.env.DATABASE_USER || 'postgres',
+      password: process.env.DATABASE_PASSWORD || 'postgres',
+      database: process.env.DATABASE_NAME || 'bars',
+      entities: [User, LocationEntity, CommentsEntity, LocationImageEntity],
+      synchronize: true,
+    }),
+    UserModule,
+    LocationsModule,
+    AuthModule,
+    CommentsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
