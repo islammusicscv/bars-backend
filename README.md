@@ -1,98 +1,106 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🌍 Bars Backend (NestJS API)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend del aplikacije VSŠ Album, zgrajen z ogrodjem NestJS. Aplikacija omogoča upravljanje z lokacijami (dodajanje, urejanje, brisanje, pregledovanje), komentiranje, registracijo uporabnikov in nalaganje slik.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Funkcionalnosti
 
-## Description
+### Avtentikacija
+- Registracija uporabnikov.
+- Prijava z uporabo JWT (JSON Web Tokens).
+- Zaščita endpointov z AuthGuard.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Upravljanje Lokacij (CRUD)
+- Dodajanje novih lokacij.
+- Pregled vseh lokacij in posamezne lokacije (vključno s slikami).
+- Urejanje in brisanje lokacij (dovoljeno samo lastniku).
+- Kaskadno brisanje (izbris lokacije odstrani tudi pripadajoče slike in komentarje).
 
-## Project setup
+### Komentarji
+- Dodajanje komentarjev na lokacije.
+- Urejanje in brisanje komentarjev (dovoljeno samo avtorju).
+- Pridobivanje komentarjev za specifično lokacijo.
 
+### Nalaganje Slik
+- Podpora za nalaganje več slik naenkrat (`multipart/form-data`) za določeno lokacijo.
+- Validacija tipa datoteke (dovoljene samo slike: jpg, jpeg, png) in velikosti (max 5MB).
+- Slike se shranjujejo lokalno v mapo `uploads` in so javno dostopne.
+
+## 🛠️ Tehnologije
+- **NestJS:** Progresivno Node.js ogrodje.
+- **TypeORM:** ORM za delo s podatkovno bazo.
+- **PostgreSQL:** Relacijska podatkovna baza.
+- **Passport:** Middleware za avtentikacijo (uporabljen `passport-jwt` in `passport-local`).
+- **Multer:** Middleware za nalaganje datotek.
+
+## 📦 Namestitev in Zagon
+
+### Predpogoji
+- Node.js (priporočena verzija 16 ali novejša)
+- PostgreSQL baza podatkov
+
+### 1. Kloniranje repozitorija
 ```bash
-$ npm install
+git clone <URL_TVOJEGA_REPOZITORIJA>
+cd bars-backend
 ```
 
-## Compile and run the project
-
+### 2. Namestitev odvisnosti
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
-
+### 3. Konfiguracija okolja (.env)
 ```bash
-# unit tests
-$ npm run test
+# Podatki za bazo
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=tvoj_uporabnik
+DB_PASSWORD=tvoje_geslo
+DB_NAME=bars_db
 
-# e2e tests
-$ npm run test:e2e
+# JWT Secret
+JWT_SECRET=tvoj_skrivni_kljuc_123
 
-# test coverage
-$ npm run test:cov
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 4. Zagon aplikacije
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev   # razvoj
+npm run start:prod  # produkcija
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Strežnik bo privzeto tekel na `http://localhost:3000`.
 
-## Resources
+## 📂 Struktura API-ja (Endpoints)
+Spodaj je seznam vseh razpoložljivih poti (endpoints), pridobljenih iz kontrolerjev.
 
-Check out a few resources that may come in handy when working with NestJS:
+### Avtentikacija (`/auth`)
+- `POST /auth/login` - Prijava uporabnika (uporablja LocalGuard, vrne JWT token).
+- `POST /auth/logout` - Odjava uporabnika.
+- `GET /auth/profile` - Pridobi podatke o trenutno prijavljenem uporabniku (zahteva JWT).
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Uporabniki (`/users`)
+- `POST /users` - Registracija novega uporabnika.
+- `GET /users` - Seznam vseh uporabnikov.
+- `GET /users/:id` - Podrobnosti uporabnika po ID-ju.
+- `PATCH /users/:id` - Posodobi podatke uporabnika.
+- `DELETE /users/:id` - Izbriši uporabnika.
 
-## Support
+### Lokacije (`/locations`)
+- `GET /locations` - Seznam vseh lokacij.
+- `GET /locations/:id` - Podrobnosti posamezne lokacije.
+- `POST /locations` - Ustvari novo lokacijo (zahteva JWT).
+- `PATCH /locations/:id` - Uredi lokacijo (zahteva JWT, samo lastnik).
+- `DELETE /locations/:id` - Izbriši lokacijo (zahteva JWT, samo lastnik).
+- `POST /locations/:id/images` - Naloži slike za lokacijo (zahteva JWT, `multipart/form-data`, ključ `files`, max 10 slik).
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Komentarji (`/comments`)
+- `GET /comments/location/:id` - Pridobi vse komentarje za določeno lokacijo.
+- `POST /comments` - Dodaj nov komentar (zahteva JWT).
+- `PATCH /comments/:id` - Uredi komentar (zahteva JWT).
+- `DELETE /comments/:id` - Izbriši komentar (zahteva JWT).
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 📝 Opombe
+- **Slike:** Mapa `uploads` se samodejno uporablja za shranjevanje slik. Poskrbite, da ima aplikacija pravice za pisanje v to mapo.
+- **Testiranje:** Za testiranje API klicev priporočam uporabo orodja Postman ali Insomnia.
+- **Nalaganje slik v Postmanu:** Izberite metodo POST, zavihke **Body -> form-data**. Vnesite ključ `files`, izberite tip **File** in naložite eno ali več slik.
