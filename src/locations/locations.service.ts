@@ -22,13 +22,13 @@ export class LocationsService {
   ) {}
 
   findAll(): Promise<LocationEntity[]> {
-    return this.locationRepository.find();
+    return this.locationRepository.find({ relations: ['images', 'user'] });
   }
 
   findById(id: number): Promise<LocationEntity | null> {
     return this.locationRepository.findOne({
       where: { id },
-      relations: ['user'],
+      relations: ['user', 'images'],
     });
   }
 

@@ -13,6 +13,7 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  BadRequestException,
 } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { LocationEntity } from './location.entity';
@@ -60,20 +61,22 @@ export class LocationsController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/images')
-  @UseInterceptors(FilesInterceptor('files', 10)) // 'files' je ime polja, max 10 slik
+  @UseInterceptors(FilesInterceptor('files', 10))
   async uploadImages(
     @Param('id') id: string,
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 }), // Max 5MB
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }), // Samo slike
-        ],
-      }),
-    )
-    files: Array<Express.Multer.File>,
+    @UploadedFiles() files: Array<Express.Multer.File>, // Odstrani ParseFilePipe za trenutek
     @Request() req,
   ) {
+    // Ročno preverjanje
+    if (!files || files.length === 0) {
+      throw new BadRequestException('No files uploaded');
+    }
+    for (const file of files) {
+      if (!file.mimetype.match(/^image\/(jpg|jpeg|png)$/)) {
+        throw new BadRequestException(`Invalid file type: ${file.mimetype}`);
+      }
+    }
+
     return this.locationService.addImages(+id, files, req.user.id);
   }
 }
