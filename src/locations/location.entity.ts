@@ -33,9 +33,13 @@ export class LocationEntity {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => CommentsEntity, (comment) => comment.location)
+  @OneToMany(() => CommentsEntity, (comment) => comment.location, {
+    cascade: true,
+  })
   comments: CommentsEntity[];
 
-  @OneToMany(() => LocationImageEntity, (image) => image.location, { cascade: true })
+  @OneToMany(() => LocationImageEntity, (image) => image.location, {
+    cascade: true,
+  })
   images: LocationImageEntity[];
 }

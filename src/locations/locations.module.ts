@@ -8,10 +8,15 @@ import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { LocationImageEntity } from './location-image.entity';
+import { CommentsEntity } from '../comments/comments.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([LocationEntity, LocationImageEntity]),
+    TypeOrmModule.forFeature([
+      LocationEntity,
+      LocationImageEntity,
+      CommentsEntity,
+    ]),
     UserModule,
     MulterModule.register({
       storage: diskStorage({
