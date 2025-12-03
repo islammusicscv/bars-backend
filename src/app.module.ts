@@ -11,9 +11,15 @@ import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
 import { CommentsEntity } from './comments/comments.entity';
 import { LocationImageEntity } from './locations/location-image.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'), // Pot do mape uploads
+      serveRoot: '/uploads', // URL predpona (npr. http://localhost:3000/uploads/slika.jpg)
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
